@@ -15,10 +15,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | NookTheme Version
+    | Enzonic Cloud Version
     |--------------------------------------------------------------------------
-    | This value is set when creating a NookTheme release. You should not
+    | This value is set when creating a Enzonic Cloud release. You should not
     | change this value if you are not maintaining your own internal versions.
+    |
+    | Original Fork: NookTheme
     */
 
     'fork-version' => '1.3.2',
@@ -33,7 +35,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => env('APP_NAME', 'Pterodactyl'),
+    'name' => env('APP_NAME', 'Enzonic Cloud'),
 
     /*
     |--------------------------------------------------------------------------

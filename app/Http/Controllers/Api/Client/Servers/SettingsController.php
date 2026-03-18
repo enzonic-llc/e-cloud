@@ -3,7 +3,9 @@
 namespace Pterodactyl\Http\Controllers\Api\Client\Servers;
 
 use Illuminate\Http\Response;
+use Pterodactyl\Models\Egg;
 use Pterodactyl\Models\Server;
+use Pterodactyl\Models\ServerVariable;
 use Illuminate\Http\JsonResponse;
 use Pterodactyl\Facades\Activity;
 use Pterodactyl\Repositories\Eloquent\ServerRepository;
@@ -13,6 +15,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Pterodactyl\Http\Requests\Api\Client\Servers\Settings\RenameServerRequest;
 use Pterodactyl\Http\Requests\Api\Client\Servers\Settings\SetDockerImageRequest;
 use Pterodactyl\Http\Requests\Api\Client\Servers\Settings\ReinstallServerRequest;
+use Pterodactyl\Http\Requests\Api\Client\Servers\Settings\UpdateEggRequest;
 
 class SettingsController extends ClientApiController
 {
@@ -89,6 +92,82 @@ class SettingsController extends ClientApiController
                 ->property(['old' => $original, 'new' => $request->input('docker_image')])
                 ->log();
         }
+
+        return new JsonResponse([], Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * Get eggs for the server's current nest.
+     *
+     * @return array
+     */
+    public function getEggs(Server $server): array
+    {
+        $eggs = Egg::query()->where('nest_id', $server->nest_id)->get();
+
+        return $eggs->map(function (Egg $egg) {
+            return [
+                'id' => $egg->id,
+                'name' => $egg->name,
+                'description' => $egg->description,
+                'docker_images' => $egg->docker_images,
+            ];
+        })->toArray();
+    }
+
+    /**
+     * Updates the server's egg within the same nest.
+     *
+     * @throws \Throwable
+     */
+    public function updateEgg(UpdateEggRequest $request, Server $server): JsonResponse
+    {
+        $eggId = $request->input('egg_id');
+        $dockerImage = $request->input('docker_image');
+
+        $egg = Egg::query()->where('nest_id', $server->nest_id)->findOrFail($eggId);
+
+        if (!in_array($dockerImage, array_values($egg->docker_images))) {
+            throw new BadRequestHttpException('The requested Docker image is not valid for the selected egg.');
+        }
+
+        $originalEggId = $server->egg_id;
+        $originalImage = $server->image;
+
+        $oldEggVariables = Egg::query()->findOrFail($originalEggId)->variables->keyBy('id');
+        $existingVariables = $server->variables->mapWithKeys(function ($variable) use ($oldEggVariables) {
+            $eggVariable = $oldEggVariables->get($variable->variable_id);
+            return $eggVariable ? [$eggVariable->env_variable => $variable->variable_value] : [];
+        });
+
+        $server->forceFill([
+            'egg_id' => $egg->id,
+            'image' => $dockerImage,
+            'startup' => $egg->startup,
+        ])->saveOrFail();
+
+        $eggVariables = $egg->variables;
+        $variablesToInsert = [];
+
+        foreach ($eggVariables as $eggVariable) {
+            $variablesToInsert[] = [
+                'server_id' => $server->id,
+                'variable_id' => $eggVariable->id,
+                'variable_value' => $existingVariables->has($eggVariable->env_variable) 
+                    ? $existingVariables->get($eggVariable->env_variable) 
+                    : $eggVariable->default_value,
+            ];
+        }
+
+        ServerVariable::query()->where('server_id', $server->id)->delete();
+
+        if (!empty($variablesToInsert)) {
+            ServerVariable::query()->insert($variablesToInsert);
+        }
+
+        Activity::event('server:settings.egg')
+            ->property(['old_egg' => $originalEggId, 'new_egg' => $egg->id, 'old_image' => $originalImage, 'new_image' => $dockerImage])
+            ->log();
 
         return new JsonResponse([], Response::HTTP_NO_CONTENT);
     }

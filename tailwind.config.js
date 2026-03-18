@@ -1,19 +1,11 @@
 const colors = require('tailwindcss/colors');
 
-const gray = {
-    50: colors.neutral[50],
-    100: colors.neutral[100],
-    200: colors.neutral[200],
-    300: colors.neutral[300],
-    400: colors.neutral[400],
-    500: colors.neutral[500],
-    600: colors.neutral[600],
-    700: colors.neutral[700],
-    800: colors.neutral[800],
-    900: colors.neutral[900],
-};
+function varColor(name) {
+    return `rgba(var(${name}), <alpha-value>)`;
+}
 
 module.exports = {
+    darkMode: 'class',
     content: [
         './resources/scripts/**/*.{js,ts,tsx}',
     ],
@@ -23,26 +15,45 @@ module.exports = {
                 header: ['"IBM Plex Sans"', '"Roboto"', 'system-ui', 'sans-serif'],
             },
             colors: {
-                black: '#131a20',
-                // "primary" and "neutral" are deprecated, prefer the use of "blue" and "gray"
-                // in new code.
-                primary: colors.blue,
+                black: '#0f0f0f',
+                primary: {
+                    50: varColor('--pt-primary-50'),
+                    100: varColor('--pt-primary-100'),
+                    200: varColor('--pt-primary-200'),
+                    300: varColor('--pt-primary-300'),
+                    400: varColor('--pt-primary-400'),
+                    500: varColor('--pt-primary-500'),
+                    600: varColor('--pt-primary-600'),
+                    700: varColor('--pt-primary-700'),
+                    800: varColor('--pt-primary-800'),
+                    900: varColor('--pt-primary-900'),
+                },
                 orange: colors.orange,
-                gray: gray,
-                neutral: gray,
-                cyan: colors.cyan,
+                gray: {
+                    50: varColor('--pt-neutral-50'),
+                    100: varColor('--pt-neutral-100'),
+                    200: varColor('--pt-neutral-200'),
+                    300: varColor('--pt-neutral-300'),
+                    400: varColor('--pt-neutral-400'),
+                    500: varColor('--pt-neutral-500'),
+                    600: varColor('--pt-neutral-600'),
+                    700: varColor('--pt-neutral-700'),
+                    800: varColor('--pt-neutral-800'),
+                    900: varColor('--pt-neutral-900'),
+                },
                 neutral: {
-                    50: colors.neutral[50],
-                    100: colors.neutral[100],
-                    200: colors.neutral[200],
-                    300: colors.neutral[300],
-                    400: colors.neutral[400],
-                    500: colors.neutral[500],
-                    600: colors.neutral[600],
-                    700: '#17171B',
-                    800: '#212121',
-                    900: '#121212',
-                }
+                    50: varColor('--pt-neutral-50'),
+                    100: varColor('--pt-neutral-100'),
+                    200: varColor('--pt-neutral-200'),
+                    300: varColor('--pt-neutral-300'),
+                    400: varColor('--pt-neutral-400'),
+                    500: varColor('--pt-neutral-500'),
+                    600: varColor('--pt-neutral-600'),
+                    700: varColor('--pt-neutral-700'),
+                    800: varColor('--pt-neutral-800'),
+                    900: varColor('--pt-neutral-900'),
+                },
+                cyan: colors.cyan,
             },
             fontSize: {
                 '2xs': '0.625rem',
@@ -51,7 +62,7 @@ module.exports = {
                 250: '250ms',
             },
             borderColor: theme => ({
-                default: theme('colors.neutral.400', 'currentColor'),
+                default: varColor('--pt-neutral-400'),
             }),
         },
     },

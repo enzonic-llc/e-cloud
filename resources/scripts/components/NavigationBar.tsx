@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faCogs, faLayerGroup, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faCogs, faLayerGroup, faSignOutAlt, faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import { useStoreState } from 'easy-peasy';
 import { ApplicationStore } from '@/state';
 import SearchContainer from '@/components/dashboard/search/SearchContainer';
@@ -17,17 +17,19 @@ const RightNavigation = styled.div`
     & > a,
     & > button,
     & > .navigation-link {
-        ${tw`flex items-center h-full no-underline text-neutral-300 px-6 cursor-pointer transition-all duration-150`};
+        ${tw`flex items-center justify-center h-10 w-10 rounded-xl no-underline text-neutral-300 ml-2 cursor-pointer transition-all duration-200`};
 
         &:active,
         &:hover {
-            ${tw`text-neutral-100 bg-black`};
+            ${tw`text-emerald-400 bg-neutral-800 scale-105`};
         }
 
-        &:active,
-        &:hover,
+        &:active {
+            ${tw`scale-95`};
+        }
+
         &.active {
-            box-shadow: inset 0 -2px ${theme`colors.cyan.600`.toString()};
+            ${tw`text-emerald-400 bg-emerald-500/10`};
         }
     }
 `;
@@ -46,6 +48,9 @@ export default () => {
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const location = useLocation();
     const [showSidebar, setShowSidebar] = useState(false);
+    const [isLightMode, setIsLightMode] = useState(() => {
+        return localStorage.getItem('theme') === 'light';
+    });
 
     useEffect(() => {
         if (location.pathname.startsWith('/server') || location.pathname.startsWith('/account')) {
@@ -54,6 +59,16 @@ export default () => {
         }
         setShowSidebar(false);
     }, [location.pathname]);
+
+    useEffect(() => {
+        if (isLightMode) {
+            document.documentElement.classList.add('light');
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.documentElement.classList.remove('light');
+            localStorage.setItem('theme', 'dark');
+        }
+    }, [isLightMode]);
 
     const onTriggerLogout = () => {
         setIsLoggingOut(true);
@@ -64,30 +79,36 @@ export default () => {
     };
 
     return (
-        <div className={'bg-neutral-700 shadow-md overflow-x-auto topbar'}>
+        <div className={'bg-neutral-900 border-b border-white/5 w-full topbar transition-all duration-300'}>
             <SpinnerOverlay visible={isLoggingOut} />
-            <div className={'mx-auto w-full flex items-center h-[3.5rem] max-w-[1200px]'}>
+            <div className={'mx-auto w-full flex items-center h-16 px-4 md:px-8 max-w-[1400px]'}>
                 {showSidebar && (
-                    <FontAwesomeIcon
-                        icon={faBars}
-                        className='navbar-button'
+                    <button
+                        className='flex items-center justify-center w-10 h-10 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-300 hover:text-emerald-400 transition-all duration-200 active:scale-95 lg:hidden mr-4'
                         onClick={onTriggerNavButton}
-                    ></FontAwesomeIcon>
+                    >
+                        <FontAwesomeIcon icon={faBars} />
+                    </button>
                 )}
 
-                <div id={'logo'} className={'flex-1'}>
+                <div id={'logo'} className={'flex-1 flex items-center'}>
                     <Link
                         to={'/'}
                         className={
-                            'text-2xl font-header px-4 no-underline text-neutral-200 hover:text-neutral-100 transition-colors duration-150'
+                            'text-2xl font-bold tracking-tight px-2 no-underline text-white hover:text-emerald-400 transition-colors duration-200'
                         }
                     >
                         {name}
                     </Link>
                 </div>
 
-                <RightNavigation className={'flex h-full items-center justify-center'}>
+                <RightNavigation className={'flex items-center'}>
                     <SearchContainer />
+                    <Tooltip placement={'bottom'} content={'Toggle Theme'}>
+                        <button onClick={() => setIsLightMode(!isLightMode)}>
+                            <FontAwesomeIcon icon={isLightMode ? faMoon : faSun} />
+                        </button>
+                    </Tooltip>
                     <Tooltip placement={'bottom'} content={'Dashboard'}>
                         <NavLink to={'/'} exact>
                             <FontAwesomeIcon icon={faLayerGroup} />
@@ -102,13 +123,13 @@ export default () => {
                     )}
                     <Tooltip placement={'bottom'} content={'Account Settings'}>
                         <NavLink to={'/account'}>
-                            <span className={'flex items-center w-5 h-5'}>
+                            <span className={'flex items-center w-6 h-6 rounded-full overflow-hidden'}>
                                 <Avatar.User />
                             </span>
                         </NavLink>
                     </Tooltip>
                     <Tooltip placement={'bottom'} content={'Sign Out'}>
-                        <button onClick={onTriggerLogout}>
+                        <button onClick={onTriggerLogout} className={'hover:text-red-500! hover:bg-red-500/10!'}>
                             <FontAwesomeIcon icon={faSignOutAlt} />
                         </button>
                     </Tooltip>

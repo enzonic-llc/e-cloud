@@ -9,6 +9,8 @@ import NetworkContainer from '@/components/server/network/NetworkContainer';
 import StartupContainer from '@/components/server/startup/StartupContainer';
 import FileManagerContainer from '@/components/server/files/FileManagerContainer';
 import SettingsContainer from '@/components/server/settings/SettingsContainer';
+import PropertiesContainer from '@/components/server/properties/PropertiesContainer';
+import ModsContainer from '@/components/server/mods/ModsContainer';
 import AccountOverviewContainer from '@/components/dashboard/AccountOverviewContainer';
 import AccountApiContainer from '@/components/dashboard/AccountApiContainer';
 import AccountSSHContainer from '@/components/dashboard/ssh/AccountSSHContainer';
@@ -28,6 +30,8 @@ import {
     faPlayCircle,
     faTerminal,
     faUser,
+    faSlidersH,
+    faPuzzlePiece,
 } from '@fortawesome/free-solid-svg-icons';
 
 // Each of the router files is already code split out appropriately — so
@@ -158,6 +162,20 @@ export default {
             name: 'Startup',
             component: StartupContainer,
             iconProp: faPlayCircle,
+        },
+        {
+            path: '/properties',
+            permission: 'file.*',
+            name: 'Properties',
+            component: PropertiesContainer,
+            iconProp: faSlidersH,
+        },
+        {
+            path: '/mods',
+            permission: 'file.*',
+            name: 'Mods & Plugins',
+            component: ModsContainer,
+            iconProp: faPuzzlePiece,
         },
         {
             path: '/settings',

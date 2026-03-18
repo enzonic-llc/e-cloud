@@ -13,5 +13,13 @@ Route::get('/locales/locale.json', Base\LocaleController::class)
     ->withoutMiddleware(['auth', RequireTwoFactorAuthentication::class])
     ->where('namespace', '.*');
 
+Route::get('/terms', function () {
+    return view('legal.tos');
+})->withoutMiddleware(['auth', 'auth.session', RequireTwoFactorAuthentication::class])->name('legal.tos');
+
+Route::get('/privacy', function () {
+    return view('legal.privacy');
+})->withoutMiddleware(['auth', 'auth.session', RequireTwoFactorAuthentication::class])->name('legal.privacy');
+
 Route::get('/{react}', [Base\IndexController::class, 'index'])
     ->where('react', '^(?!(\/)?(api|auth|admin|daemon)).+');

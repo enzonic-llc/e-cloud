@@ -17,6 +17,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                         [styles.small]: size === Options.Size.Small,
                         [styles.large]: size === Options.Size.Large,
                     },
+                    'rounded-xl transition-all duration-200 active:scale-95',
                     className
                 )}
                 {...rest}

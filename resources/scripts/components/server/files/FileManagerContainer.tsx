@@ -95,8 +95,8 @@ export default () => {
                         <CSSTransition classNames={'fade'} timeout={150} appear in>
                             <div>
                                 {files.length > 250 && (
-                                    <div css={tw`rounded bg-yellow-400 mb-px p-3`}>
-                                        <p css={tw`text-yellow-900 text-sm text-center`}>
+                                    <div css={tw`rounded-xl bg-yellow-500/10 border border-yellow-500/50 mb-4 p-3`}>
+                                        <p css={tw`text-yellow-400 text-sm text-center`}>
                                             This directory is too large to display in the browser, limiting the output
                                             to the first 250 files.
                                         </p>

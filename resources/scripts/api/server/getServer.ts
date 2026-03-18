@@ -35,6 +35,7 @@ export interface Server {
         threads: string;
     };
     eggFeatures: string[];
+    eggName: string;
     featureLimits: {
         databases: number;
         allocations: number;
@@ -43,6 +44,8 @@ export interface Server {
     isTransferring: boolean;
     variables: ServerEggVariable[];
     allocations: Allocation[];
+    eggId?: number;
+    nestId?: number;
 }
 
 export const rawDataToServerObject = ({ attributes: data }: FractalResponseData): Server => ({
@@ -62,6 +65,7 @@ export const rawDataToServerObject = ({ attributes: data }: FractalResponseData)
     description: data.description ? (data.description.length > 0 ? data.description : null) : null,
     limits: { ...data.limits },
     eggFeatures: data.egg_features || [],
+    eggName: data.egg_name || '',
     featureLimits: { ...data.feature_limits },
     isTransferring: data.is_transferring,
     variables: ((data.relationships?.variables as FractalResponseList | undefined)?.data || []).map(
@@ -70,11 +74,13 @@ export const rawDataToServerObject = ({ attributes: data }: FractalResponseData)
     allocations: ((data.relationships?.allocations as FractalResponseList | undefined)?.data || []).map(
         rawDataToServerAllocation
     ),
+    eggId: data.relationships?.egg?.attributes?.id,
+    nestId: data.relationships?.egg?.attributes?.nest_id,
 });
 
 export default (uuid: string): Promise<[Server, string[]]> => {
     return new Promise((resolve, reject) => {
-        http.get(`/api/client/servers/${uuid}`)
+        http.get(`/api/client/servers/${uuid}?include=egg,variables,allocations`)
             .then(({ data }) =>
                 resolve([
                     rawDataToServerObject(data),

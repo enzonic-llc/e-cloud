@@ -31,6 +31,8 @@ export default () => {
 
     const id = ServerContext.useStoreState((state) => state.server.data?.id);
     const uuid = ServerContext.useStoreState((state) => state.server.data?.uuid);
+    const eggName = ServerContext.useStoreState((state) => state.server.data?.eggName);
+    const eggFeatures = ServerContext.useStoreState((state) => state.server.data?.eggFeatures);
     const inConflictState = ServerContext.useStoreState((state) => state.server.inConflictState);
     const serverId = ServerContext.useStoreState((state) => state.server.data?.internalId);
     const getServer = ServerContext.useStoreActions((actions) => actions.server.getServer);
@@ -78,6 +80,14 @@ export default () => {
                         <Sidebar>
                             {routes.server
                                 .filter((route) => !!route.name)
+                                .filter((route) => {
+                                    if (route.name === 'Properties' || route.name === 'Mods & Plugins') {
+                                        const isMinecraftEgg = eggName ? ['minecraft', 'paper', 'spigot', 'forge', 'bedrock', 'bungeecord', 'velocity', 'waterdog', 'purpur', 'sponge', 'vanilla', 'fabric'].some(keyword => eggName.toLowerCase().includes(keyword)) : false;
+                                        const hasMinecraftFeatures = eggFeatures ? eggFeatures.includes('eula') || eggFeatures.includes('java_version') : false;
+                                        return isMinecraftEgg || hasMinecraftFeatures;
+                                    }
+                                    return true;
+                                })
                                 .map((route) =>
                                     route.permission ? (
                                         <Can key={route.path} action={route.permission} matchAny>
