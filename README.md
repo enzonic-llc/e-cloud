@@ -61,7 +61,7 @@ the release archive for the most recent version of Pterodactyl, save it in the c
 unpack the archive into your current folder.
 
 ```bash
-curl -L https://codeload.github.com/enzonic-llc/e-cloud/tar.gz/refs/tags/latest | tar -xzv
+curl -L https://release-assets.githubusercontent.com/github-production-release-asset/1185768782/ffb08fa6-abc1-4b06-bd5b-8a95210b12f3?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-03-19T00%3A29%3A56Z&rscd=attachment%3B+filename%3Dpanel.tar.gz | tar -xzv
 ```
 
 Once all of the files are downloaded we need to set the correct permissions on the cache and storage directories to avoid
