@@ -1,16 +1,4 @@
-# Nook Theme
-NookTheme is a free and open source [Pterodactyl theme](https://pterodactyl.io) designed to be simple, clean, and modern.
-
-![Image](https://i.imgur.com/AFjHGBr.png)
-
-<details>
-<summary>View Screenshots</summary>
-
-![Image](https://i.imgur.com/CNxF3iT.png)
-![Image](https://i.imgur.com/IflRtEX.png)
-![Image](https://i.imgur.com/vNLK5jP.png)
-![Image](https://i.imgur.com/dnxV2CS.png)
-</details>
+# E-Cloud
 
 ## Installation
 
@@ -73,7 +61,7 @@ the release archive for the most recent version of Pterodactyl, save it in the c
 unpack the archive into your current folder.
 
 ```bash
-curl -L https://github.com/Nookure/NookTheme/releases/latest/download/panel.tar.gz | tar -xzv
+curl -L https://github.com/enzonic-llc/e-cloud/releases/download/v2/panel.tar.gz | tar -xzv
 ```
 
 Once all of the files are downloaded we need to set the correct permissions on the cache and storage directories to avoid
@@ -145,29 +133,3 @@ connections.
 php artisan up
 ```
 
-## Documentation
-
-* [Panel Documentation](https://pterodactyl.io/panel/1.0/getting_started.html)
-* [Wings Documentation](https://pterodactyl.io/wings/1.0/installing.html)
-* [Community Guides](https://pterodactyl.io/community/about.html)
-* Or, get additional help [via Discord](https://discord.nookure.com/)
-
-## Star History
-
-<a href="https://star-history.com/#Nookure/NookTheme&Timeline">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Nookure/NookTheme&type=Timeline&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Nookure/NookTheme&type=Timeline" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Nookure/NookTheme&type=Timeline" />
-  </picture>
-</a>
-
-## License
-
-Pterodactyl® Copyright © 2015 - 2023 Dane Everitt and contributors.
-
-> Nookure is not affiliated with Pterodactyl® Panel or its contributors.
-
-Pterodactyl code released under the [MIT License](./LICENSE.md).
-
-NookTheme code  edits released under the [GNU GPLv3 License](./NookLicense.md).
