@@ -74,8 +74,8 @@ export const rawDataToServerObject = ({ attributes: data }: FractalResponseData)
     allocations: ((data.relationships?.allocations as FractalResponseList | undefined)?.data || []).map(
         rawDataToServerAllocation
     ),
-    eggId: data.relationships?.egg?.attributes?.id,
-    nestId: data.relationships?.egg?.attributes?.nest_id,
+    eggId: (data.relationships?.egg as FractalResponseData | undefined)?.attributes?.id,
+    nestId: (data.relationships?.egg as FractalResponseData | undefined)?.attributes?.nest_id,
 });
 
 export default (uuid: string): Promise<[Server, string[]]> => {

@@ -1,7 +1,12 @@
 const colors = require('tailwindcss/colors');
 
 function varColor(name) {
-    return `rgba(var(${name}), <alpha-value>)`;
+    return ({ opacityValue }) => {
+        if (opacityValue !== undefined) {
+            return `rgba(var(${name}), ${opacityValue})`;
+        }
+        return `rgb(var(${name}))`;
+    };
 }
 
 module.exports = {
@@ -29,6 +34,15 @@ module.exports = {
                     900: varColor('--pt-primary-900'),
                 },
                 orange: colors.orange,
+                emerald: colors.emerald,
+                green: colors.green,
+                red: colors.red,
+                blue: colors.blue,
+                yellow: colors.yellow,
+                indigo: colors.indigo,
+                purple: colors.purple,
+                pink: colors.pink,
+                cyan: colors.cyan,
                 gray: {
                     50: varColor('--pt-neutral-50'),
                     100: varColor('--pt-neutral-100'),

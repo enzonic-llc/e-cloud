@@ -114,6 +114,7 @@
         "postcss-preset-env": "^7.7.1",
         "prettier": "^2.7.1",
         "redux-devtools-extension": "^2.13.8",
+        "rimraf": "^6.1.3",
         "source-map-loader": "^1.1.3",
         "style-loader": "^2.0.0",
         "svg-url-loader": "^7.1.1",
@@ -130,13 +131,13 @@
         "yarn-deduplicate": "^1.1.1"
     },
     "scripts": {
-        "clean": "cd public/assets && find . \\( -name \"*.js\" -o -name \"*.map\" -o -name \"*.json\" \\) -type f -delete",
+        "clean": "rimraf --glob \"public/assets/**/*.js\" \"public/assets/**/*.map\" \"public/assets/**/*.json\"",
         "test": "jest",
         "lint": "eslint ./resources/scripts/**/*.{ts,tsx} --ext .ts,.tsx",
-        "watch": "crossx-env NODE_ENV=development ./node_modules/.bin/webpack --watch --progress",
-        "build": "yarn run clean && cross-env NODE_ENV=development ./node_modules/.bin/webpack --progress",
-        "build:production": "yarn run clean && cross-env NODE_ENV=production ./node_modules/.bin/webpack --mode production --progress",
-        "serve": "yarn run clean && cross-env WEBPACK_PUBLIC_PATH=/webpack@hmr/ NODE_ENV=development webpack-dev-server --host 0.0.0.0 --port 8081 --hot"
+        "watch": "cross-env NODE_OPTIONS=--openssl-legacy-provider NODE_ENV=development ./node_modules/.bin/webpack --watch --progress",
+        "build": "yarn run clean && cross-env NODE_OPTIONS=--openssl-legacy-provider NODE_ENV=development ./node_modules/.bin/webpack --progress",
+        "build:production": "yarn run clean && cross-env NODE_OPTIONS=--openssl-legacy-provider NODE_ENV=production ./node_modules/.bin/webpack --mode production --progress",
+        "serve": "yarn run clean && cross-env NODE_OPTIONS=--openssl-legacy-provider WEBPACK_PUBLIC_PATH=/webpack@hmr/ NODE_ENV=development webpack-dev-server --host 0.0.0.0 --port 8081 --hot"
     },
     "browserslist": [
         "> 0.5%",

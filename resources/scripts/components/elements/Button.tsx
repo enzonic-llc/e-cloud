@@ -16,10 +16,10 @@ const ButtonStyle = styled.button<Omit<Props, 'isLoading'>>`
     ${(props) =>
         ((!props.isSecondary && !props.color) || props.color === 'primary') &&
         css<Props>`
-            ${(props) => !props.isSecondary && tw`bg-emerald-500 text-white shadow-md shadow-emerald-500/20`};
+            ${(props) => !props.isSecondary && tw`bg-emerald-500 text-white shadow-md`};
 
             &:hover:not(:disabled) {
-                ${tw`bg-emerald-600 shadow-lg shadow-emerald-500/30`};
+                ${tw`bg-emerald-600 shadow-lg`};
             }
         `};
 
@@ -36,10 +36,10 @@ const ButtonStyle = styled.button<Omit<Props, 'isLoading'>>`
     ${(props) =>
         props.color === 'green' &&
         css<Props>`
-            ${tw`bg-emerald-500 text-white shadow-md shadow-emerald-500/20`};
+            ${tw`bg-emerald-500 text-white shadow-md`};
 
             &:hover:not(:disabled) {
-                ${tw`bg-emerald-600 shadow-lg shadow-emerald-500/30`};
+                ${tw`bg-emerald-600 shadow-lg`};
             }
 
             ${(props) =>
@@ -54,10 +54,10 @@ const ButtonStyle = styled.button<Omit<Props, 'isLoading'>>`
     ${(props) =>
         props.color === 'red' &&
         css<Props>`
-            ${tw`bg-red-500 text-white shadow-md shadow-red-500/20`};
+            ${tw`bg-red-500 text-white shadow-md`};
 
             &:hover:not(:disabled) {
-                ${tw`bg-red-600 shadow-lg shadow-red-500/30`};
+                ${tw`bg-red-600 shadow-lg`};
             }
 
             ${(props) =>
@@ -81,9 +81,9 @@ const ButtonStyle = styled.button<Omit<Props, 'isLoading'>>`
 
             &:hover:not(:disabled) {
                 ${tw`text-white`};
-                ${(props) => props.color === 'red' && tw`bg-red-500 shadow-md shadow-red-500/20`};
-                ${(props) => (!props.color || props.color === 'primary') && tw`bg-emerald-500 shadow-md shadow-emerald-500/20`};
-                ${(props) => props.color === 'green' && tw`bg-emerald-500 shadow-md shadow-emerald-500/20`};
+                ${(props) => props.color === 'red' && tw`bg-red-500 shadow-md`};
+                ${(props) => (!props.color || props.color === 'primary') && tw`bg-emerald-500 shadow-md`};
+                ${(props) => props.color === 'green' && tw`bg-emerald-500 shadow-md`};
             }
         `};
 

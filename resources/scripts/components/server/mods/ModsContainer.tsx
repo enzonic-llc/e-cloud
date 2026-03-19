@@ -107,7 +107,7 @@ export default () => {
     };
 
     return (
-        <ServerContentBlock title={'Mods & Plugins'} description={'Search and install mods or plugins using Modrinth.'}>
+        <ServerContentBlock title={'Mods & Plugins'}>
             <form onSubmit={searchMods} css={tw`mb-6 flex gap-4`}>
                 <Input
                     placeholder={'Search for a mod or plugin...'}
