@@ -53,6 +53,11 @@ export default ({ server, className }: { server: Server; className?: string }) =
     const interval = useRef<Timer>(null) as React.MutableRefObject<Timer>;
     const [isSuspended, setIsSuspended] = useState(server.status === 'suspended');
     const [stats, setStats] = useState<ServerStats | null>(null);
+    const [mcStatus, setMcStatus] = useState<any>(null);
+
+    const isMinecraft = ['minecraft', 'paper', 'forge', 'spigot', 'vanilla', 'purpur', 'fabric'].some(
+        (type) => server.eggName.toLowerCase().includes(type)
+    );
 
     const getStats = () =>
         getServerResourceUsage(server.uuid)
@@ -77,6 +82,31 @@ export default ({ server, className }: { server: Server; className?: string }) =
         };
     }, [isSuspended]);
 
+    useEffect(() => {
+        if (!isMinecraft) return;
+        
+        if (stats?.status === 'running' || stats?.status === 'starting') {
+            const alloc = server.allocations.find((a) => a.isDefault);
+            if (alloc) {
+                // Use alias if available to avoid raw internal IPs where possible,
+                // but API supports both.
+                const targetIp = alloc.alias || alloc.ip;
+                fetch(`https://api.mcsrvstat.us/3/${targetIp}:${alloc.port}`)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        if (data.online) {
+                            setMcStatus(data);
+                        } else {
+                            setMcStatus(null);
+                        }
+                    })
+                    .catch(() => setMcStatus(null));
+            }
+        } else {
+            setMcStatus(null);
+        }
+    }, [stats?.status, isMinecraft, server.allocations]);
+
     const alarms = { cpu: false, memory: false, disk: false };
     if (stats) {
         alarms.cpu = server.limits.cpu === 0 ? false : stats.cpuUsagePercent >= server.limits.cpu * 0.9;
@@ -92,12 +122,29 @@ export default ({ server, className }: { server: Server; className?: string }) =
         <StatusIndicatorBox as={Link} to={`/server/${server.id}`} className={className} $status={stats?.status}>
             <div css={tw`flex items-center col-span-12 sm:col-span-5 lg:col-span-6`}>
                 <div className={'icon mr-4'}>
-                    <FontAwesomeIcon icon={faServer} />
+                    {mcStatus?.icon ? (
+                        <img src={mcStatus.icon} css={tw`w-10 h-10 rounded`} alt="Server Icon" />
+                    ) : (
+                        <FontAwesomeIcon icon={faServer} />
+                    )}
                 </div>
                 <div>
                     <p css={tw`text-lg break-words`}>{server.name}</p>
                     {!!server.description && (
                         <p css={tw`text-sm text-neutral-300 break-words line-clamp-2`}>{server.description}</p>
+                    )}
+                    {mcStatus && (
+                        <div css={tw`mt-1`}>
+                            <div css={tw`flex items-center text-xs text-neutral-400`}>
+                                <span css={tw`mr-2 bg-green-500 text-green-100 rounded px-2 py-0.5 font-bold`}>
+                                    {mcStatus.players?.online || 0} / {mcStatus.players?.max || 0}
+                                </span>
+                                <span
+                                    css={tw`line-clamp-1`}
+                                    dangerouslySetInnerHTML={{ __html: mcStatus.motd?.html?.join(' ') || '' }}
+                                />
+                            </div>
+                        </div>
                     )}
                 </div>
             </div>

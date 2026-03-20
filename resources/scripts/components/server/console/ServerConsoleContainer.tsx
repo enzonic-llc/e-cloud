@@ -10,6 +10,7 @@ import StatGraphs from '@/components/server/console/StatGraphs';
 import PowerButtons from '@/components/server/console/PowerButtons';
 import ServerDetailsBlock from '@/components/server/console/ServerDetailsBlock';
 import { Alert } from '@/components/elements/alert';
+import MinecraftPingBlock from '@/components/server/console/MinecraftPingBlock';
 
 export type PowerAction = 'start' | 'stop' | 'restart' | 'kill';
 
@@ -36,6 +37,7 @@ const ServerConsoleContainer = () => {
                 <div className={'hidden sm:block sm:col-span-2 lg:col-span-3 pr-4'}>
                     <h1 className={'font-header text-2xl text-gray-50 leading-relaxed line-clamp-1'}>{name}</h1>
                     <p className={'text-sm line-clamp-2'}>{description}</p>
+                    <MinecraftPingBlock />
                 </div>
                 <div className={'col-span-4 sm:col-span-2 lg:col-span-1 self-end'}>
                     <Can action={['control.start', 'control.stop', 'control.restart']} matchAny>

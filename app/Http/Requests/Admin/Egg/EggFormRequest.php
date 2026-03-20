@@ -20,6 +20,9 @@ class EggFormRequest extends AdminFormRequest
             'config_startup' => 'required_without:config_from|nullable|json',
             'config_logs' => 'required_without:config_from|nullable|json',
             'config_files' => 'required_without:config_from|nullable|json',
+            'is_deployable' => 'sometimes|boolean',
+            'is_minecraft' => 'sometimes|boolean',
+            'deploy_name' => 'sometimes|nullable|string|max:191',
         ];
 
         if ($this->method() === 'POST') {
@@ -42,6 +45,8 @@ class EggFormRequest extends AdminFormRequest
 
         return array_merge($data, [
             'force_outgoing_ip' => array_get($data, 'force_outgoing_ip', false),
+            'is_deployable' => array_get($data, 'is_deployable', false),
+            'is_minecraft' => array_get($data, 'is_minecraft', false),
         ]);
     }
 }

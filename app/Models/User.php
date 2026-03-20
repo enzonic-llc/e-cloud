@@ -38,6 +38,13 @@ use Pterodactyl\Notifications\SendPasswordReset as ResetPasswordNotification;
  * @property string|null $totp_secret
  * @property \Illuminate\Support\Carbon|null $totp_authenticated_at
  * @property bool $gravatar
+ * @property int|null $server_limit
+ * @property int|null $cpu_quota
+ * @property int|null $ram_quota
+ * @property int|null $disk_quota
+ * @property int|null $port_quota
+ * @property int|null $backup_quota
+ * @property int|null $database_quota
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Database\Eloquent\Collection|\Pterodactyl\Models\ApiKey[] $apiKeys
@@ -125,6 +132,13 @@ class User extends Model implements
         'totp_authenticated_at',
         'gravatar',
         'root_admin',
+        'server_limit',
+        'cpu_quota',
+        'ram_quota',
+        'disk_quota',
+        'port_quota',
+        'backup_quota',
+        'database_quota',
     ];
 
     /**
@@ -135,6 +149,13 @@ class User extends Model implements
         'use_totp' => 'boolean',
         'gravatar' => 'boolean',
         'totp_authenticated_at' => 'datetime',
+        'server_limit' => 'integer',
+        'cpu_quota' => 'integer',
+        'ram_quota' => 'integer',
+        'disk_quota' => 'integer',
+        'port_quota' => 'integer',
+        'backup_quota' => 'integer',
+        'database_quota' => 'integer',
     ];
 
     /**
@@ -168,6 +189,13 @@ class User extends Model implements
         'language' => 'string',
         'use_totp' => 'boolean',
         'totp_secret' => 'nullable|string',
+        'server_limit' => 'nullable|integer|min:-1',
+        'cpu_quota' => 'nullable|integer|min:-1',
+        'ram_quota' => 'nullable|integer|min:-1',
+        'disk_quota' => 'nullable|integer|min:-1',
+        'port_quota' => 'nullable|integer|min:-1',
+        'backup_quota' => 'nullable|integer|min:-1',
+        'database_quota' => 'nullable|integer|min:-1',
     ];
 
     /**

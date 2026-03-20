@@ -27,6 +27,7 @@ Route::prefix('/account')->middleware(AccountSubject::class)->group(function () 
         Route::post('/two-factor/disable', [Client\TwoFactorController::class, 'delete']);
     });
 
+    Route::get('/quota', [Client\UserQuotaController::class, 'quota'])->name('api:client.account.quota');
     Route::put('/email', [Client\AccountController::class, 'updateEmail'])->name('api:client.account.update-email');
     Route::put('/password', [Client\AccountController::class, 'updatePassword'])->name('api:client.account.update-password');
 
@@ -42,6 +43,10 @@ Route::prefix('/account')->middleware(AccountSubject::class)->group(function () 
         Route::post('/remove', [Client\SSHKeyController::class, 'delete']);
     });
 });
+
+Route::get('/deployable-eggs', [Client\UserQuotaController::class, 'deployableEggs'])->name('api:client.deployable-eggs');
+Route::post('/servers', [Client\UserServerController::class, 'store'])->name('api:client.servers.store');
+Route::delete('/servers/{server}', [Client\UserServerController::class, 'delete'])->name('api:client.servers.delete');
 
 /*
 |--------------------------------------------------------------------------

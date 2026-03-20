@@ -80,6 +80,40 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
+                    <h3 class="box-title">Deployment Configuration</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="pDeployName" class="control-label">Deploy Name</label>
+                                <input type="text" id="pDeployName" name="deploy_name" value="{{ old('deploy_name') }}" class="form-control" />
+                                <p class="text-muted small">The name to display when deploying this egg.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="checkbox checkbox-primary no-margin-bottom">
+                                    <input id="pIsDeployable" name="is_deployable" type="checkbox" value="1" {{ \Pterodactyl\Helpers\Utilities::checked('is_deployable', 0) }} />
+                                    <label for="pIsDeployable" class="strong">Is Deployable</label>
+                                    <p class="text-muted small">Allow users to deploy servers using this egg.</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox checkbox-primary no-margin-bottom">
+                                    <input id="pIsMinecraft" name="is_minecraft" type="checkbox" value="1" {{ \Pterodactyl\Helpers\Utilities::checked('is_minecraft', 0) }} />
+                                    <label for="pIsMinecraft" class="strong">Is Minecraft</label>
+                                    <p class="text-muted small">Indicate if this egg is a Minecraft server.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header with-border">
                     <h3 class="box-title">Process Management</h3>
                 </div>
                 <div class="box-body">

@@ -29,14 +29,14 @@
 
   html.light {
     --pt-neutral-900: 255, 255, 255;
-    --pt-neutral-800: 244, 244, 245;
-    --pt-neutral-700: 228, 228, 231;
-    --pt-neutral-600: 212, 212, 216;
-    --pt-neutral-500: 161, 161, 170;
-    --pt-neutral-400: 113, 113, 122;
-    --pt-neutral-300: 82, 82, 91;
-    --pt-neutral-200: 39, 39, 42;
-    --pt-neutral-100: 24, 24, 27;
-    --pt-neutral-50: 9, 9, 11;
+    --pt-neutral-800: 248, 250, 252;
+    --pt-neutral-700: 226, 232, 240;
+    --pt-neutral-600: 203, 213, 225;
+    --pt-neutral-500: 148, 163, 184;
+    --pt-neutral-400: 100, 116, 139;
+    --pt-neutral-300: 71, 85, 105;
+    --pt-neutral-200: 51, 65, 85;
+    --pt-neutral-100: 30, 41, 59;
+    --pt-neutral-50: 15, 23, 42;
   }
 }

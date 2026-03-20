@@ -101,6 +101,73 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">User Quotas</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="server_limit" class="control-label">Server Limit</label>
+                                <div>
+                                    <input type="text" name="server_limit" value="{{ $user->server_limit }}" class="form-control form-autocomplete-stop">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="cpu_quota" class="control-label">CPU Quota</label>
+                                <div>
+                                    <input type="text" name="cpu_quota" value="{{ $user->cpu_quota }}" class="form-control form-autocomplete-stop">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="ram_quota" class="control-label">RAM Quota</label>
+                                <div>
+                                    <input type="text" name="ram_quota" value="{{ $user->ram_quota }}" class="form-control form-autocomplete-stop">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="disk_quota" class="control-label">Disk Quota</label>
+                                <div>
+                                    <input type="text" name="disk_quota" value="{{ $user->disk_quota }}" class="form-control form-autocomplete-stop">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="port_quota" class="control-label">Port Quota</label>
+                                <div>
+                                    <input type="text" name="port_quota" value="{{ $user->port_quota }}" class="form-control form-autocomplete-stop">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="backup_quota" class="control-label">Backup Quota</label>
+                                <div>
+                                    <input type="text" name="backup_quota" value="{{ $user->backup_quota }}" class="form-control form-autocomplete-stop">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="database_quota" class="control-label">Database Quota</label>
+                                <div>
+                                    <input type="text" name="database_quota" value="{{ $user->database_quota }}" class="form-control form-autocomplete-stop">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
     <div class="col-xs-12">
         <div class="box box-danger">

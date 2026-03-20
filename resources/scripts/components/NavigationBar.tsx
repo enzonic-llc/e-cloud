@@ -79,7 +79,7 @@ export default () => {
     };
 
     return (
-        <div className={'bg-neutral-900 border-b border-white/5 w-full topbar transition-all duration-300'}>
+        <div className={'sticky top-0 z-50 bg-neutral-900 border-b border-white/5 w-full topbar transition-all duration-300'}>
             <SpinnerOverlay visible={isLoggingOut} />
             <div className={'mx-auto w-full flex items-center h-16 px-4 md:px-8 max-w-[1400px]'}>
                 {showSidebar && (

@@ -34,6 +34,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $copy_script_install
  * @property string $copy_script_entry
  * @property string $copy_script_container
+ * @property bool $is_deployable
+ * @property string|null $deploy_name
+ * @property bool $is_minecraft
  * @property string|null $inherit_config_files
  * @property string|null $inherit_config_startup
  * @property string|null $inherit_config_logs
@@ -97,6 +100,9 @@ class Egg extends Model
         'script_entry',
         'script_container',
         'copy_script_from',
+        'is_deployable',
+        'deploy_name',
+        'is_minecraft',
     ];
 
     /**
@@ -111,6 +117,8 @@ class Egg extends Model
         'features' => 'array',
         'docker_images' => 'array',
         'file_denylist' => 'array',
+        'is_deployable' => 'boolean',
+        'is_minecraft' => 'boolean',
     ];
 
     public static array $validationRules = [
@@ -132,6 +140,9 @@ class Egg extends Model
         'config_files' => 'required_without:config_from|nullable|json',
         'update_url' => 'sometimes|nullable|string',
         'force_outgoing_ip' => 'sometimes|boolean',
+        'is_deployable' => 'sometimes|boolean',
+        'is_minecraft' => 'sometimes|boolean',
+        'deploy_name' => 'sometimes|nullable|string|max:191',
     ];
 
     protected $attributes = [

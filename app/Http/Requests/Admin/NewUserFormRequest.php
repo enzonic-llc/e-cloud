@@ -23,6 +23,13 @@ class NewUserFormRequest extends AdminFormRequest
             'password',
             'language',
             'root_admin',
+            'server_limit',
+            'cpu_quota',
+            'ram_quota',
+            'disk_quota',
+            'port_quota',
+            'backup_quota',
+            'database_quota',
         ])->toArray();
     }
 }

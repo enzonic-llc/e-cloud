@@ -30,6 +30,27 @@ You should have received a copy of the GNU General Public License along with Noo
     --sidebar-size: 260px;
 }
 
+html.light {
+    --color-primary: #ffffff;
+    --color-secondary: #f8fafc;
+    --color-tertiary: #f1f5f9;
+    --color-quaternary: #94a3b8;
+    --color-quinary: #64748b;
+    --button-color: #ffffff;
+    --button-color-hover: #f1f5f9;
+    --button-color-active: #10b981;
+    --button-color-disabled: #cbd5e1;
+    --button-color-text: #475569;
+    --text-main: #0f172a;
+    --text-secondary: #1e293b;
+    --text-tertiary: #334155;
+    --background-color: #ffffff;
+    --invert: 0;
+    --sidebar-button-color: #475569;
+    --sidebar-button-color-hover: #059669;
+    --card-bg: #ffffff;
+}
+
 .nav-bar {
     display: none;
 }

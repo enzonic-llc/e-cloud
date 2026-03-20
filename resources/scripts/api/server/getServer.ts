@@ -19,6 +19,7 @@ export interface Server {
     node: string;
     isNodeUnderMaintenance: boolean;
     status: ServerStatus;
+    serverOwner: boolean;
     sftpDetails: {
         ip: string;
         port: number;
@@ -56,6 +57,7 @@ export const rawDataToServerObject = ({ attributes: data }: FractalResponseData)
     node: data.node,
     isNodeUnderMaintenance: data.is_node_under_maintenance,
     status: data.status,
+    serverOwner: data.server_owner === true || data.is_server_owner === true || false,
     invocation: data.invocation,
     dockerImage: data.docker_image,
     sftpDetails: {
@@ -81,13 +83,18 @@ export const rawDataToServerObject = ({ attributes: data }: FractalResponseData)
 export default (uuid: string): Promise<[Server, string[]]> => {
     return new Promise((resolve, reject) => {
         http.get(`/api/client/servers/${uuid}?include=egg,variables,allocations`)
-            .then(({ data }) =>
+            .then(({ data }) => {
+                const server = rawDataToServerObject(data);
+                // The meta object is not passed to rawDataToServerObject by default in FractalResponseData
+                // so we must set it here to be accurate.
+                server.serverOwner = data.meta?.is_server_owner === true;
+
                 resolve([
-                    rawDataToServerObject(data),
+                    server,
                     // eslint-disable-next-line camelcase
                     data.meta?.is_server_owner ? ['*'] : data.meta?.user_permissions || [],
-                ])
-            )
+                ]);
+            })
             .catch(reject);
     });
 };

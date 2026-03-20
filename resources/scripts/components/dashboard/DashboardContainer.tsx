@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Server } from '@/api/server/getServer';
 import getServers from '@/api/getServers';
+import getQuota from '@/api/account/getQuota';
 import ServerRow from '@/components/dashboard/ServerRow';
 import Spinner from '@/components/elements/Spinner';
 import PageContentBlock from '@/components/elements/PageContentBlock';
@@ -12,7 +13,8 @@ import tw from 'twin.macro';
 import useSWR from 'swr';
 import { PaginatedResult } from '@/api/http';
 import Pagination from '@/components/elements/Pagination';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
+import Button from '@/components/elements/Button';
 
 export default () => {
     const { search } = useLocation();
@@ -28,6 +30,8 @@ export default () => {
         ['/api/client/servers', showOnlyAdmin && rootAdmin, page],
         () => getServers({ page, type: showOnlyAdmin && rootAdmin ? 'admin' : undefined })
     );
+
+    const quota = getQuota();
 
     useEffect(() => {
         if (!servers) return;
@@ -50,6 +54,36 @@ export default () => {
 
     return (
         <PageContentBlock className='content-dashboard' title={'Dashboard'} showFlashKey={'dashboard'}>
+            <div css={tw`mb-4 flex flex-col md:flex-row justify-between items-center`}>
+                <div css={tw`flex-1 w-full md:w-auto`}>
+                    {quota && (
+                        <div css={tw`flex flex-wrap gap-4 text-sm bg-neutral-800 p-4 rounded-md shadow-md`}>
+                            <div css={tw`flex flex-col`}>
+                                <span css={tw`text-neutral-400 font-semibold uppercase text-xs mb-1`}>Memory</span>
+                                <span>{quota.used_memory} / {quota.memory === 0 ? '∞' : quota.memory} MB</span>
+                            </div>
+                            <div css={tw`flex flex-col`}>
+                                <span css={tw`text-neutral-400 font-semibold uppercase text-xs mb-1`}>CPU</span>
+                                <span>{quota.used_cpu} / {quota.cpu === 0 ? '∞' : quota.cpu} %</span>
+                            </div>
+                            <div css={tw`flex flex-col`}>
+                                <span css={tw`text-neutral-400 font-semibold uppercase text-xs mb-1`}>Disk</span>
+                                <span>{quota.used_disk} / {quota.disk === 0 ? '∞' : quota.disk} MB</span>
+                            </div>
+                            <div css={tw`flex flex-col`}>
+                                <span css={tw`text-neutral-400 font-semibold uppercase text-xs mb-1`}>Servers</span>
+                                <span>{quota.used_servers} / {quota.servers === 0 ? '∞' : quota.servers}</span>
+                            </div>
+                        </div>
+                    )}
+                </div>
+                <div css={tw`mt-4 md:mt-0 md:ml-4`}>
+                    <Link to="/create">
+                        <Button color="primary">Create Server</Button>
+                    </Link>
+                </div>
+            </div>
+
             {rootAdmin && (
                 <div css={tw`mb-2 flex justify-end items-center`}>
                     <p css={tw`uppercase text-xs text-neutral-400 mr-2`}>
