@@ -42,6 +42,30 @@ php -v
 
 </details>
 
+### Automatic Installation / Update
+
+To automatically run the entire update process, including downloading files, setting permissions, installing dependencies, and **automatically creating/updating the SQL tables**, simply paste and run the following block of commands:
+
+```bash
+cd /var/www/pterodactyl && \
+php artisan down && \
+curl -L https://github.com/enzonic-llc/e-cloud/releases/download/v2/panel.tar.gz | tar -xzv && \
+chmod -R 755 storage/* bootstrap/cache && \
+composer install --no-dev --optimize-autoloader && \
+php artisan view:clear && \
+php artisan config:clear && \
+php artisan migrate --seed --force && \
+chown -R www-data:www-data /var/www/pterodactyl/* && \
+php artisan queue:restart && \
+php artisan up
+```
+
+---
+
+### Manual Installation Steps
+
+If you prefer to perform the steps manually, follow the sections below.
+
 ### Enter Maintenance Mode
 
 Whenever you are performing an update you should be sure to place your Panel into maintenance mode. This will prevent

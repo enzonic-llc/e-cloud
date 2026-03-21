@@ -26,6 +26,7 @@ class UpdateEggRequest extends ClientApiRequest implements ClientPermissionsRequ
         return [
             'egg_id' => ['required', 'integer', 'exists:eggs,id'],
             'docker_image' => ['required', 'string', 'max:191'],
+            'version' => ['nullable', 'string', 'max:191'],
         ];
     }
 }

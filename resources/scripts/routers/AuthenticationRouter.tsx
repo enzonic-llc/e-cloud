@@ -14,7 +14,7 @@ export default () => {
     const { path } = useRouteMatch();
 
     return (
-        <div className={'min-h-screen pt-8 xl:pt-32 bg-cover bg-center'} style={{ backgroundImage: 'linear-gradient(to bottom right, #111827, #0f172a, #1e1b4b)' }}>
+        <div className={'min-h-screen pt-8 xl:pt-32 bg-cover bg-center'} style={{ backgroundImage: 'linear-gradient(to bottom right, #064e3b, #022c22, #065f46)' }}>
             <Switch location={location}>
                 <Route path={`${path}/login`} component={LoginContainer} exact />
                 <Route path={`${path}/login/checkpoint`} component={LoginCheckpointContainer} />

@@ -6,6 +6,7 @@ import updateEgg from '@/api/server/updateEgg';
 import useFlash from '@/plugins/useFlash';
 import { Button } from '@/components/elements/button/index';
 import Select from '@/components/elements/Select';
+import Input from '@/components/elements/Input';
 import tw from 'twin.macro';
 import Label from '@/components/elements/Label';
 
@@ -16,6 +17,7 @@ export default () => {
     const [eggs, setEggs] = useState<Egg[]>([]);
     const [selectedEggId, setSelectedEggId] = useState<number | undefined>();
     const [selectedImage, setSelectedImage] = useState<string | undefined>();
+    const [version, setVersion] = useState<string>('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
@@ -52,7 +54,7 @@ export default () => {
         setIsSubmitting(true);
         clearFlashes('settings');
 
-        updateEgg(uuid, selectedEggId, selectedImage)
+        updateEgg(uuid, selectedEggId, selectedImage, version)
             .then(() => {
                 addFlash({
                     key: 'settings',
@@ -107,6 +109,18 @@ export default () => {
                         </Select>
                     </div>
                 )}
+
+                <div css={tw`mb-6`}>
+                    <Label>Version (Optional)</Label>
+                    <Input
+                        value={version}
+                        onChange={(e) => setVersion(e.target.value)}
+                        placeholder={'e.g. latest, 1.19.2, etc.'}
+                    />
+                    <p css={tw`text-sm text-neutral-400 mt-2`}>
+                        If your selected egg uses a specific version variable (like MINECRAFT_VERSION or VERSION), you can override it here. Leave empty to use default.
+                    </p>
+                </div>
 
                 <div css={tw`flex justify-end`}>
                     <Button type={'submit'} disabled={isSubmitting || !selectedEggId || !selectedImage}>

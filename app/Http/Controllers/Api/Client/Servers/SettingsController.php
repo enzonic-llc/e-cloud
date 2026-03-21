@@ -124,6 +124,7 @@ class SettingsController extends ClientApiController
     {
         $eggId = $request->input('egg_id');
         $dockerImage = $request->input('docker_image');
+        $version = $request->input('version');
 
         $egg = Egg::query()->where('nest_id', $server->nest_id)->findOrFail($eggId);
 
@@ -150,12 +151,18 @@ class SettingsController extends ClientApiController
         $variablesToInsert = [];
 
         foreach ($eggVariables as $eggVariable) {
+            $value = $existingVariables->has($eggVariable->env_variable) 
+                ? $existingVariables->get($eggVariable->env_variable) 
+                : $eggVariable->default_value;
+
+            if ($version !== null && in_array($eggVariable->env_variable, ['MINECRAFT_VERSION', 'VERSION', 'SERVER_VERSION', 'BUILD_VERSION'])) {
+                $value = $version;
+            }
+
             $variablesToInsert[] = [
                 'server_id' => $server->id,
                 'variable_id' => $eggVariable->id,
-                'variable_value' => $existingVariables->has($eggVariable->env_variable) 
-                    ? $existingVariables->get($eggVariable->env_variable) 
-                    : $eggVariable->default_value,
+                'variable_value' => $value,
             ];
         }
 
